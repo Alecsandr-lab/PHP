@@ -5,5 +5,5 @@ $linuxArray[
    'kitty'=>2020
    'Debian'=>2003 
  ];
- echo ( $linuxArray as $row => $values ) {
+ foreach( $linuxArray as $row => $values ) {
 echo $row . PHP_EOL . $values. "<br>"}
