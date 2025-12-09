@@ -112,8 +112,7 @@ $elementsArray = [
 ];
 foreach ($elementsArray as $key => $value ) {
   echo $key . PHP_EOL . $value . "<br>" ;
-}
-swsws
+}dsdsdsd
 
 // 6. Массив с ценами продуктов
 $productsArray = [
