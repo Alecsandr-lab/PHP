@@ -1,3 +1,4 @@
+<?php 
 $linuxArray[
   'Archlinux'=>2007
    'mongara'=>2000
@@ -7,3 +8,4 @@ $linuxArray[
  ];
  foreach( $linuxArray as $row => $values ) {
 echo $row . PHP_EOL . $values. "<br>"}
+?>
