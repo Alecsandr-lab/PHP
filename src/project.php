@@ -8,4 +8,4 @@ $linuxArray[
  ];
  foreach( $linuxArray as $row => $values ) {
 echo $row . PHP_EOL . $values. "<br>"}
-?>
+?>sdsadasd
