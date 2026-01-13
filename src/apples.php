@@ -62,7 +62,28 @@ function data($name) {
 }
 
 echo data("piterrparrkerr
-")
+");
 
+$apples= 40 ;
+echo $apples ;
+
+$libari=[
+"Asseta Corsa",
+"Counte-Strike 2",
+"Euro Truk Sim",
+"Beanmg Drive",
+"GTA 5",
+"piople Ground",
+"Sandbox",
+];
+foreach ($libari as $values) {
+ echo  $values . PHP_EOL . "<br>" ;
+}
+ 
+if ($apples < 15) {
+    echo "arbuz";
+} else {
+  echo"apple";
+}
 ?>
 
