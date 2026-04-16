@@ -1,0 +1,160 @@
+:root {
+    --primary: #2d3436;
+    --accent: #0984e3;
+    --light: #f5f6fa;
+    --white: #ffffff;
+    --shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: var(--light);
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--primary);
+}
+
+.search-container {
+    display: flex;
+    flex: 0 1 400px;
+    margin: 0 20px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #dfe6e9;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+}
+
+#search-btn {
+    padding: 10px 20px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+#cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* Product Card Styling */
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+.product-card {
+    background: var(--white);
+    width: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--accent);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.product-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.product-name {
+    margin: 0 0 5px;
+    font-size: 1.2rem;
+    color: var(--primary);
+}
+
+.product-category {
+    color: #b2bec3;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.product-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.add-to-cart:hover {
+    background: var(--accent);
+}
