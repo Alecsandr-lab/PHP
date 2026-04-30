@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (!response.ok) throw new Error('Network response was not ok');
             
-            const data = await response.json();
+            // const data = await response.json();
+            const data = await response;
             
             // Handle the results (printing to console for this demo)
             console.log('Search Results:', data);
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } catch (error) {
+            console.log(error)
             console.error('Search failed:', error);
             alert('There was an error processing your search.');
         } finally {
