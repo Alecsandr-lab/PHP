@@ -1,5 +1,5 @@
 <?php
-require_once "Database.php";
+require_once "/logic/Database.php";
 class Search
 {
     public $query;
