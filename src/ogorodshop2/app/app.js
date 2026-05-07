@@ -45,11 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
              * Replace the URL with your actual endpoint, e.g., '/api/search?q='
              */
             const response = await fetch(`logic/search.php?search=${query}`);
-            
+
             if (!response.ok) throw new Error('Network response was not ok');
             
-            // const data = await response.json();
-            const data = await response;
+            const data = await response.json();
+            //const data = await response;
             
             // Handle the results (printing to console for this demo)
             console.log('Search Results:', data);

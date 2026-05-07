@@ -1,9 +1,9 @@
 <?php
 class Database {
 
-    private $host = 'localhost';
+    private $host = 'db';
 
-    private $db   = 'db';
+    private $db   = 'myapp';
 
     private $user = 'myuser';
 
@@ -34,13 +34,12 @@ class Database {
                 $this->pdo = new PDO($dsn, $this->user, $this->pass, $options);
 
             } catch (PDOException $e) {
-
+            
                 throw new PDOException($e->getMessage(), (int)$e->getCode());
 
             }
 
         }
-
         return $this->pdo;
 
     }

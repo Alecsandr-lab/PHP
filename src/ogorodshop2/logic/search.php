@@ -1,20 +1,20 @@
 <?php
-require_once "/logic/Database.php";
+require_once "Database.php";
 class Search
 {
     public $query;
-    public $db;
-    public function ___construct($query, $db)
+    public $pdo;
+    public function __construct($query,$pdo)
     {
         $this->query = $query;
-        $this->db = $db;
+        $this->pdo = $pdo;
+
     }
 
     private function _search()
     {
-        $stmt = $this->db->prepare("SELECT * FROM LIKE `products` WHERE `name` LIKE %?%");
-        $stmt->execute([$this->query]);
-
+        $stmt = $this->pdo->prepare("SELECT * FROM  `products` WHERE `name` LIKE ? ");
+        $stmt->execute(["%{$this->query}%"]);
         return $stmt->fetchAll();
     }
 
@@ -25,5 +25,5 @@ class Search
 }
 $db = new Database();
 $dbConnection = $db->getConnection();
-$search = new Search($_POST["query"], $dbConnection);
+$search = new Search($_GET["search"], $dbConnection);
 echo $search->response();
