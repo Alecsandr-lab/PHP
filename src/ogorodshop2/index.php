@@ -18,10 +18,32 @@
     </div>
 
     <div class="nav-actions">
-        <button class="icon-btn" title="Cart">🛒 <span id="cart-count">0</span></button>
+        <!-- Добавлен ID: cart-open-btn -->
+        <button class="icon-btn" id="cart-open-btn" title="Cart">🛒 <span id="cart-count">0</span></button>
         <button class="icon-btn" title="Profile">👤</button>
     </div>
 </header>
+
+<!-- Затемнение фона -->
+<div class="cart-overlay" id="cart-overlay"></div>
+
+<!-- Выезжающее меню корзины -->
+<aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+        <h2>Корзина</h2>
+        <button class="close-btn" id="cart-close-btn">&times;</button>
+    </div>
+    <div class="cart-body" id="cart-items-list">
+        <!-- Сюда JS будет рендерить товары -->
+    </div>
+    <div class="cart-footer">
+        <div class="total-row">
+            <span>Итого:</span>
+            <span id="cart-total-price">0 ₽</span>
+        </div>
+        <button class="checkout-btn">Оформить заказ</button>
+    </div>
+</aside>
 
 <main class="container">
     <div class="product-card">

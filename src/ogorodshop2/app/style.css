@@ -158,3 +158,198 @@ body {
 .add-to-cart:hover {
     background: var(--accent);
 }
+
+/* Стили корзины */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Изначально скрыта за экраном */
+    width: 350px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    z-index: 2000;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Класс для активации (добавляется через JS) */
+.cart-sidebar.active {
+    transform: translateX(-400px);
+}
+
+/* Оверлей (затемнение) */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px); /* Размытие фона */
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 1999;
+}
+
+.cart-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Детали внутри меню */
+.cart-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.cart-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Анимация появления товаров внутри корзины */
+.cart-item {
+    margin-bottom: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: 0.4s ease;
+}
+
+.cart-sidebar.active .cart-item {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cart-footer {
+    padding: 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    background: #2d3436;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+/* Стили элемента в корзине */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-name {
+    font-weight: 500;
+    color: #2d3436;
+}
+
+.item-price {
+    color: #00b894;
+    font-size: 0.9em;
+}
+
+/* Кнопка удаления */
+.delete-btn {
+    background: #ffeaa7;
+    color: #d63031;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #ff7675;
+    color: white;
+    transform: rotate(90deg); /* Эффект поворота при наведении */
+}
+
+.empty-msg {
+    text-align: center;
+    color: #b2bec3;
+    margin-top: 40px;
+}
+.add-to-cart-btn {
+    /* Основные размеры и отступы */
+    width: 100%;
+    padding: 12px 24px;
+    
+    /* Цвета и шрифты */
+    background: var(--primary); /* Используем твой темный цвет */
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    /* Геометрия */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Эффекты */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Чтобы текст не выделялся при частом клике */
+    user-select: none;
+    outline: none;
+}
+
+/* Состояние при наведении */
+.add-to-cart-btn:hover {
+    background: var(--accent); /* Меняем на синий при наведении */
+    box-shadow: 0 7px 14px rgba(9, 132, 227, 0.3);
+    transform: translateY(-2px); /* Легкий подъем вверх */
+}
+
+/* Состояние при нажатии */
+.add-to-cart-btn:active {
+    transform: translateY(1px); /* Эффект «вдавливания» */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Стиль для состояния "Добавлено" (управляется через JS) */
+.add-to-cart-btn.success {
+    background: #00b894 !important;
+    pointer-events: none; /* Отключаем клики, пока висит статус */
+}

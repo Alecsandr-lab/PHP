@@ -1,86 +1,160 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cartBtn = document.querySelector('.add-to-cart');
+    // --- Элементы интерфейса ---
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartOpenBtn = document.getElementById('cart-open-btn');
+    const cartCloseBtn = document.getElementById('cart-close-btn');
     const cartCount = document.getElementById('cart-count');
+    const cartItemsList = document.getElementById('cart-items-list');
+    const totalPriceEl = document.getElementById('cart-total-price');
+    
     const searchBtn = document.getElementById('search-btn');
     const searchInput = document.getElementById('search-input');
+    const productContainer = document.querySelector('.container');
 
-    let count = 0;
+    // --- Логика данных (LocalStorage) ---
 
-    // Simulate adding to cart
-    cartBtn.addEventListener('click', () => {
-        count++;
-        cartCount.textContent = count;
-        
-        // Simple feedback
-        cartBtn.textContent = "Added!";
-        cartBtn.style.background = "#00b894";
-        
-        setTimeout(() => {
-            cartBtn.textContent = "Add to Cart";
-            cartBtn.style.background = "#2d3436";
-        }, 1000);
-    });
+    // Получение данных из хранилища
+    const getCartData = () => JSON.parse(localStorage.getItem('shukoi_cart')) || [];
 
-    // Simple search alert
-    searchBtn.addEventListener('click', () => {
-        const query = searchInput.value;
-        if(query) {
-            alert(`Searching for: ${query}`);
-        } else {
-            alert("Please enter a search term.");
+    // Сохранение данных в хранилище
+    const saveCartData = (data) => {
+        localStorage.setItem('shukoi_cart', JSON.stringify(data));
+        updateGlobalCount();
+    };
+
+    // Обновление цифры на иконке корзины
+    const updateGlobalCount = () => {
+        const data = getCartData();
+        cartCount.textContent = data.length;
+    };
+
+    // --- Функции корзины ---
+
+    // Удаление товара (вынесено в window для доступа из HTML-строки)
+    window.deleteFromCart = (index) => {
+        let cartData = getCartData();
+        cartData.splice(index, 1);
+        saveCartData(cartData);
+        renderCart(); // Перерисовываем список
+    };
+
+    // Отрисовка списка товаров в корзине
+    const renderCart = () => {
+        const cartData = getCartData();
+        cartItemsList.innerHTML = '';
+        let total = 0;
+
+        if (cartData.length === 0) {
+            cartItemsList.innerHTML = '<p class="empty-msg">Корзина пуста</p>';
+            totalPriceEl.textContent = '0 ₽';
+            return;
         }
-    });
-    
-    // 1. Handle the Search Logic
-    const performSearch = async (query) => {
-        if (!query.trim()) return;
 
-        // Visual feedback: Change button state
-        searchBtn.innerHTML = '...'; 
-        searchBtn.disabled = true;
-
-        try {
-            /**
-             * AJAX using the Fetch API. 
-             * Replace the URL with your actual endpoint, e.g., '/api/search?q='
-             */
-            const response = await fetch(`logic/search.php?search=${query}`);
-
-            if (!response.ok) throw new Error('Network response was not ok');
+        cartData.forEach((item, index) => {
+            total += parseFloat(item.price);
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.style.transitionDelay = `${index * 0.05}s`;
             
-            const data = await response.json();
-            //const data = await response;
-            
-            // Handle the results (printing to console for this demo)
-            console.log('Search Results:', data);
-            
-            if (data.length > 0) {
-                alert(`Success! Found ${data.length} items matching "${query}". Check console for details.`);
-            } else {
-                alert('No results found.');
-            }
+            div.innerHTML = `
+                <div class="cart-item-info">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-price">${item.price} ₽</span>
+                </div>
+                <button class="delete-btn" onclick="deleteFromCart(${index})">
+                    &times;
+                </button>
+            `;
+            cartItemsList.appendChild(div);
+        });
 
-        } catch (error) {
-            console.log(error)
-            console.error('Search failed:', error);
-            alert('There was an error processing your search.');
-        } finally {
-            // Restore button state
-            searchBtn.innerHTML = '🔍';
-            searchBtn.disabled = false;
+        totalPriceEl.textContent = `${total} ₽`;
+    };
+
+    // Переключение видимости корзины
+    const toggleCart = () => {
+        cartSidebar.classList.toggle('active');
+        cartOverlay.classList.toggle('active');
+        if (cartSidebar.classList.contains('active')) {
+            renderCart();
         }
     };
 
-    // 2. Event Listener for Button Click
+    // --- Логика поиска и добавления товаров ---
+
+    const performSearch = async (query) => {
+        if (!query.trim()) return;
+        searchBtn.textContent = '...';
+
+        try {
+            const response = await fetch(`logic/search.php?search=${encodeURIComponent(query)}`);
+            const result = await response.json();
+            
+            productContainer.innerHTML = '';
+
+            if (result.success && result.data.length > 0) {
+                result.data.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image">
+                            <img src="${product.image || 'https://via.placeholder.com/400'}" alt="${product.name}">
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <!-- Блок описания -->
+                            <p class="product-description">
+                                ${product.description ? product.description : 'Описание товара скоро появится...'}
+                            </p>
+                            <div class="product-price">${product.price} ₽</div>
+                            <button class="add-to-cart-btn">Добавить</button>
+                        </div>
+                    `;
+                    
+                    // Клик "Добавить в корзину"
+                    const addBtn = card.querySelector('.add-to-cart-btn');
+                    addBtn.onclick = () => {
+                        const cartData = getCartData();
+                        cartData.push(product);
+                        saveCartData(cartData);
+                        
+                        // Анимация кнопки
+                        addBtn.textContent = 'Добавлено!';
+                        addBtn.style.background = '#00b894';
+                        setTimeout(() => {
+                            addBtn.textContent = 'Добавить';
+                            addBtn.style.background = '#2d3436';
+                        }, 800);
+                    };
+                    
+                    productContainer.appendChild(card);
+                });
+            } else {
+                productContainer.innerHTML = '<p class="no-results">Ничего не найдено</p>';
+            }
+        } catch (e) {
+            console.error('Ошибка поиска:', e);
+        } finally {
+            searchBtn.textContent = '🔍';
+        }
+    };
+
+    // --- Слушатели событий ---
+
+    cartOpenBtn.addEventListener('click', toggleCart);
+    cartCloseBtn.addEventListener('click', toggleCart);
+    cartOverlay.addEventListener('click', toggleCart);
+
     searchBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevents form submission if inside a <form>
+        e.preventDefault();
         performSearch(searchInput.value);
     });
 
-    // 3. Event Listener for "Enter" Key
     searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            performSearch(searchInput.value);
-        }
+        if (e.key === 'Enter') performSearch(searchInput.value);
     });
+
+    // Инициализация при загрузке
+    updateGlobalCount();
 });
