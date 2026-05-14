@@ -60,6 +60,29 @@
     </div>
 </main>
 
+<!-- Модальное окно оформления заказа -->
+<div class="checkout-modal-overlay" id="checkout-modal">
+    <div class="checkout-modal-content">
+        <button class="close-modal" id="close-checkout">&times;</button>
+        <h2>Оформление заказа</h2>
+        <form id="checkout-form">
+            <div class="form-group">
+                <label>Ваше имя</label>
+                <input type="text" name="name" placeholder="Введите имя" required>
+            </div>
+            <div class="form-group">
+                <label>Телефон</label>
+                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <div class="form-group">
+                <label>Адрес доставки</label>
+                <textarea placeholder="Город, улица, дом..." name="address" required></textarea>
+            </div>
+            <button type="submit" class="confirm-order-btn">Подтвердить покупку</button>
+        </form>
+    </div>
+</div>
+
 <script src="app/app.js"></script>
 </body>
 </html>
