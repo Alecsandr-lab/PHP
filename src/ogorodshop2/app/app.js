@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. Отправка данных на сервер (пример через fetch)
         try {
             // Замените 'logic/order.php' на ваш реальный путь к обработчику заказа
-          
+          console.log('Отправляем данные заказа на сервер:', orderDetails);
             const response = await fetch('logic/order.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
